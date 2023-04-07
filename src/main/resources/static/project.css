@@ -1,0 +1,14 @@
+*{
+    box-sizing: border-box;
+    margin: 2px;
+    padding: 0;
+    font-size: 20px;
+
+    font-weight: 300;
+}
+
+.form {
+    padding-top: 480px;
+    text-align: center;
+    text-decoration-color: black;
+}
