@@ -1,19 +1,21 @@
 
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link th:href="@{/css/project.css}" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WebShop</title>
-    <link rel="stylesheet" href="project.css">
 </head>
 <body>
-<form class="form">
-<input type="text" placeholder="username">
-<input type="password" placeholder="password">
+<form class="form" action="/shop" method="get">
+<input type="text" placeholder="email" name="email">
+<input type="password" placeholder="password" name="password">
     <br/>
 <button type="submit">Login</button>
+    <br/>
+    <a href=/newUser>Not a user? register here</a>
 </form>
 </body>
 </html>
