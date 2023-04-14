@@ -41,6 +41,7 @@ public class CustomerController {
     @GetMapping("/shop")
     public String login(@RequestParam String email, @RequestParam String password, Model model) {
         model.addAttribute("customer", customerService.findByEmailAndPassword(email, password));
+        if (customerService.isUserAdmin())
             return "shop.html";
     }
 

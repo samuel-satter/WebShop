@@ -13,6 +13,8 @@ import java.util.Optional;
 public class CustomerService {
     private final CustomerRepository customerRepo;
 
+    Customer customer;
+
     @Autowired
     public CustomerService(CustomerRepository customerRepo) {
         this.customerRepo = customerRepo;
@@ -24,5 +26,9 @@ public class CustomerService {
 
     public Optional<Customer> findByEmailAndPassword(String email, String password) {
         return customerRepo.findCustomerByEmailCustomerAndPasswordCustomer(email, password);
+    }
+
+    public Customer isUserAdmin(boolean isAdmin) {
+        return customerRepo.isUserAdmin(customer.isAdmin());
     }
 }

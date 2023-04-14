@@ -24,7 +24,6 @@ public class Customer {
     private String passwordCustomer;
 
     @Column(name = "isAdmin_customer")
-    private String isAdmin;
-
+    private boolean isAdmin;
 
 }
