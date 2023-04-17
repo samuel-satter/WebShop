@@ -1,7 +1,7 @@
 package com.example.webshop.controllers;
 
-import com.example.webshop.entitys.Customer;
-import com.example.webshop.service.CustomerService;
+import com.example.webshop.entitys.User;
+import com.example.webshop.service.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 @Controller
-public class CustomerController {
+public class UserController {
 
-    private final CustomerService customerService;
-    Customer customer;
+    private final UserService userService;
+    User user;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/newUser")
@@ -28,18 +28,18 @@ public class CustomerController {
     }
 
     @PostMapping("/newUser")
-    public String addNewUser(@RequestParam String email, @RequestParam String password, Model model) {
-        Customer customer = new Customer();
-        customer.setEmailCustomer(email);
-        customer.setPasswordCustomer(password);
-        customerService.saveCustomer(customer);
+    public String addNewUser(@RequestParam String email, @RequestParam String password) {
+        User user = new User();
+        user.setEmailUser(email);
+        user.setPasswordUser(password);
+        userService.saveUser(user);
         return "index.html";
     }
 
     @GetMapping("/shop")
     public String login(@RequestParam String email, @RequestParam String password, Model model) {
-        model.addAttribute("customer", customerService.findByEmailAndPassword(email, password));
-        if (customerService.isUserAdmin())
+        model.addAttribute("user", userService.findByEmailAndPassword(email, password));
+        if (userService.isUserAdmin())
             return "admin.html";
         else return "shop.html";
     }

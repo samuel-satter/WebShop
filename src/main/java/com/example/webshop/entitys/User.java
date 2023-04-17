@@ -7,23 +7,23 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Table(name = "customer")
-public class Customer {
+@Table(name = "user")
+public class User {
     @Setter(AccessLevel.PROTECTED)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_customer")
+    @Column(name = "id_user")
     private Long id;
 
-    @Column(name = "email_customer")
+    @Column(name = "email_user")
     @Email
-    private String emailCustomer;
+    private String emailUser;
 
-    @Column(name = "password_customer")
-    private String passwordCustomer;
+    @Column(name = "password_user")
+    private String passwordUser;
 
-    @Column(name = "isAdmin_customer")
-    private boolean isAdmin;
+    @Column(name = "isAdmin_user")
+    private boolean isUserAdmin;
 
 }
