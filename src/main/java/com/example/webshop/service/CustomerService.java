@@ -28,7 +28,7 @@ public class CustomerService {
         return customerRepo.findCustomerByEmailCustomerAndPasswordCustomer(email, password);
     }
 
-    public Customer isUserAdmin(boolean isAdmin) {
-        return customerRepo.isUserAdmin(customer.isAdmin());
+    public boolean isUserAdmin() {
+        return customerRepo.isUserAdmin(customer.isAdmin()).isAdmin();
     }
 }

@@ -35,5 +35,10 @@ public class Order {
         return sum;
     }
 
+    public List<OrderProduct> deleteFromListOfOrderProducts(int id) {
+        getOrderProducts().remove(id);
+        return getOrderProducts();
+    }
+
 
 }

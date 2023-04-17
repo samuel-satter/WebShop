@@ -1,7 +1,6 @@
 package com.example.webshop.controllers;
 
 import com.example.webshop.entitys.Customer;
-import com.example.webshop.repositorys.CustomerRepository;
 import com.example.webshop.service.CustomerService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Optional;
-
 @Data
 @Controller
 public class CustomerController {
 
     private final CustomerService customerService;
+    Customer customer;
 
     @Autowired
     public CustomerController(CustomerService customerService) {
@@ -42,7 +40,8 @@ public class CustomerController {
     public String login(@RequestParam String email, @RequestParam String password, Model model) {
         model.addAttribute("customer", customerService.findByEmailAndPassword(email, password));
         if (customerService.isUserAdmin())
-            return "shop.html";
+            return "admin.html";
+        else return "shop.html";
     }
 
 
