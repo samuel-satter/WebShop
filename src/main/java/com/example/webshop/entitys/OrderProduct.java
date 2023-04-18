@@ -12,27 +12,23 @@ import java.math.BigDecimal;
 @Entity
 public class OrderProduct {
 
-    @Setter(AccessLevel.PROTECTED)
-
     @EmbeddedId
-    @JsonIgnore
-    private OrderProductPK pk;
+    private OrderProductPK id;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("orderId")
+    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("productId")
     private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
 
-    @Transient
-    public Product getProduct() {
-        return this.pk.getProduct();
-    }
-
-    @Transient
     public BigDecimal getTotalPrice() {
         return getProduct().getPrice().multiply(BigDecimal.valueOf(getQuantity()));
     }
 
-
 }
+

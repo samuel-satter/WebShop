@@ -30,6 +30,6 @@ public class ProductService {
     }
 
     public List<Product> searchForProducts(String query) {
-        return productRepository.findByNameContainingIgnoreCase(query);
+        return productRepository.findByproductNameContainingIgnoreCase(query);
     }
 }

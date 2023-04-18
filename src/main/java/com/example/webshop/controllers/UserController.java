@@ -36,7 +36,7 @@ public class UserController {
         return "index.html";
     }
 
-    @GetMapping("/shop")
+    @GetMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password, Model model) {
         model.addAttribute("user", userService.findByEmailAndPassword(email, password));
         if (userService.isUserAdmin())

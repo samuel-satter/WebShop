@@ -36,7 +36,7 @@ public class Order {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
-    @OneToMany(mappedBy = "pk.order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
 

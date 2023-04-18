@@ -13,9 +13,10 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
 
-    @NotNull(message = "Product has to have a name")
+//    @NotNull(message = "Product has to have a name")
     @Basic(optional = false)
     @Column(name = "name")
     private String productName;
@@ -26,4 +27,8 @@ public class Product {
     @Column(name = "quantity")
     private int productQuantity;
 
+
+    public BigDecimal getPrice() {
+        return productPrice;
+    }
 }
