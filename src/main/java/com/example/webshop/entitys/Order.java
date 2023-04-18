@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "customer_name")
+    private String customerName;
+
+    @Column(name = "product_name")
+    private String productName;
+
+    @Column(name = "quantity")
+    private int quantity;
+
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @Column(name = "date_created")
     private LocalDate dateCreated;
 
     @OneToMany(mappedBy = "pk.order")
