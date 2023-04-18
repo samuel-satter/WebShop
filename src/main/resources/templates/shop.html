@@ -3,9 +3,30 @@
 <head>
     <link th:href="@{/css/project.css}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Shop</title>
 </head>
 <body>
-hello
+    <h1>Shop</h1>
+    <hr />
+        <form th:action="@{/shop}" method="get">
+            <input type="text" name="searchQuery" th:value="${query}"/>
+            <button type="submit">Search</button>
+        </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${productList}">
+                <td th:text="${product.name}"/>
+                <td th:text="${product.price}"/>
+                <td th:text="${product.quantity}"/>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

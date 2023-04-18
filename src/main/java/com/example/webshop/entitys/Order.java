@@ -40,11 +40,11 @@ public class Order {
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    public Double getTotalOrderSum() {
-        double sum = 0;
+    public BigDecimal getTotalOrderSum() {
+        BigDecimal sum = BigDecimal.ZERO;
         List<OrderProduct> orderProducts1 = getOrderProducts();
         for (OrderProduct orderProduct : orderProducts1) {
-            sum += orderProduct.getTotalPrice();
+            sum = sum.add(orderProduct.getTotalPrice());
         }
         return sum;
     }

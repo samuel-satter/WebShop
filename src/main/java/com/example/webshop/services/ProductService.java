@@ -17,10 +17,19 @@ public class ProductService {
     Product product;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {this.productRepository = productRepository;}
-
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+    public List<Product> searchForProducts(String query) {
+        return productRepository.findByNameContainingIgnoreCase(query);
     }
 }

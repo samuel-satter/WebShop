@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Data
 @Entity
 public class OrderProduct {
@@ -17,6 +19,9 @@ public class OrderProduct {
     private OrderProductPK pk;
 
     @Column(nullable = false)
+    private Product product;
+
+    @Column(nullable = false)
     private Integer quantity;
 
     @Transient
@@ -25,8 +30,8 @@ public class OrderProduct {
     }
 
     @Transient
-    public Double getTotalPrice() {
-        return getProduct().getPrice() * getQuantity();
+    public BigDecimal getTotalPrice() {
+        return getProduct().getPrice().multiply(BigDecimal.valueOf(getQuantity()));
     }
 
 

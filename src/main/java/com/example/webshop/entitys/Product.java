@@ -1,11 +1,8 @@
 package com.example.webshop.entitys;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -13,7 +10,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "products")
 public class Product {
-    @Setter(AccessLevel.PROTECTED)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,12 +18,12 @@ public class Product {
     @NotNull(message = "Product has to have a name")
     @Basic(optional = false)
     @Column(name = "name")
-    private String name;
+    private String productName;
 
     @Column(name = "price")
-    private BigDecimal price;
+    private BigDecimal productPrice;
 
     @Column(name = "quantity")
-    private int quantity;
+    private int productQuantity;
 
 }
