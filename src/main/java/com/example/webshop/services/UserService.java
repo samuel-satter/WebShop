@@ -1,4 +1,4 @@
-package com.example.webshop.service;
+package com.example.webshop.services;
 
 import com.example.webshop.entitys.User;
 import com.example.webshop.repositorys.UserRepository;
@@ -31,4 +31,5 @@ public class UserService {
     public boolean isUserAdmin() {
         return userRepository.isUserAdmin(user.isUserAdmin()).isUserAdmin();
     }
+
 }

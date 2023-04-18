@@ -1,7 +1,7 @@
 package com.example.webshop.controllers;
 
 import com.example.webshop.entitys.User;
-import com.example.webshop.service.UserService;
+import com.example.webshop.services.UserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

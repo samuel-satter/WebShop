@@ -7,8 +7,11 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Data
 @Entity
+@Table(name = "products")
 public class Product {
     @Setter(AccessLevel.PROTECTED)
 
@@ -18,10 +21,13 @@ public class Product {
 
     @NotNull(message = "Product has to have a name")
     @Basic(optional = false)
+    @Column(name = "name")
     private String name;
 
-    private Double price;
+    @Column(name = "price")
+    private BigDecimal price;
 
-    private int amountInStock;
+    @Column(name = "quantity")
+    private int quantity;
 
 }
