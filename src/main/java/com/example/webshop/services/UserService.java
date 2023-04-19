@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public Optional<User> findByEmailAndPassword(String email, String password) {
-        return userRepository.findUserByEmailUserAndPasswordUser(email, password);
+        return userRepository.findByUsernameAndPassword(email, password);
     }
 
     public boolean isUserAdmin() {

@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -20,6 +21,10 @@ public class SecurityConfig {
 
     private final DataSource dataSource;
 
+    public SecurityConfig(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     @Bean
     public JdbcUserDetailsManager jdbcUserDetailsManager() {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
@@ -32,14 +37,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Lazy
+
     protected void configureDBAuth(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .passwordEncoder(passwordEncoder());
     }
 
-    @Lazy
+
     protected void configureHttp(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .requestMatchers("/admin/**").hasRole("ADMIN")

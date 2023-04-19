@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Setter(AccessLevel.PROTECTED)
 
@@ -16,12 +16,12 @@ public class User {
     @Column(name = "id_user")
     private Long id;
 
-    @Column(name = "email_user")
+    @Column(name = "username")
     @Email
-    private String emailUser;
+    private String username;
 
-    @Column(name = "password_user")
-    private String passwordUser;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "isAdmin_user")
     private boolean isUserAdmin;
