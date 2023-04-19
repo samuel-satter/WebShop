@@ -23,7 +23,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "isAdmin_user")
+    @Column(name = "is_admin_user")
     private boolean isUserAdmin;
 
 }

@@ -24,11 +24,21 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Optional<User> findByEmailAndPassword(String email, String password) {
-        return userRepository.findByUsernameAndPassword(email, password);
+    public Optional<User> authenticateUser(String username, String password) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (password.equals(user.getPassword())) {
+                return optionalUser;
+            }
+        }
+        return Optional.empty();
     }
 
     public boolean isUserAdmin() {
+        if (user == null) {
+            return false;
+        }
         return userRepository.isUserAdmin(user.isUserAdmin()).isUserAdmin();
     }
 

@@ -7,7 +7,6 @@ import com.example.webshop.repositorys.ProductRepository;
 import com.example.webshop.services.ProductService;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,6 @@ public class ProductController {
     private final ProductRepository productRepository;
 
     @PostMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
     public String addProduct(@ModelAttribute("product") Product product) {
         productRepository.save(product);
         return "admin.html";

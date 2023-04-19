@@ -11,7 +11,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Override
     Optional<User> findById(Long aLong);
 
-    Optional<User> findByUsernameAndPassword(String email, String password);
+    Optional<User> findByUsername(String username);
 
     User isUserAdmin(boolean isAdmin);
 
