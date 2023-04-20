@@ -1,14 +1,14 @@
 package com.example.webshop.controllers;
 
-import com.example.webshop.entitys.Cart;
-import com.example.webshop.entitys.Order;
 import com.example.webshop.entitys.OrderProduct;
+import com.example.webshop.model.Cart;
 import com.example.webshop.entitys.Product;
 import com.example.webshop.repositorys.ProductRepository;
 import com.example.webshop.services.OrderService;
 import com.example.webshop.services.ProductService;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -28,8 +26,11 @@ public class ProductController {
 
 
     private final ProductRepository productRepository;
-
     private final OrderService orderService;
+
+
+    private final Cart cart;
+
 
     @GetMapping("/add-products")
     public String addProductsPage(Model model) {
@@ -49,21 +50,28 @@ public class ProductController {
     @PostMapping("/add-product-to-cart")
     public String addProductToCart(@RequestParam("productId") Long productId,
                             @RequestParam(value = "quantity", defaultValue = "1") Integer quantity,
-                            HttpSession session) {
+                            HttpSession session, Model model) {
         Product product = productService.findById(productId);
-        Order order = (Order) session.getAttribute("order");
-        if (product != null && order != null) {
-            OrderProduct orderProduct = order.getOrderProductByProductId(productId);
-            if (orderProduct != null) {
-                orderProduct.setQuantity(orderProduct.getQuantity() + quantity);
-            } else {
-                orderProduct = new OrderProduct();
-                orderProduct.setProduct(product);
-                orderProduct.setQuantity(quantity);
-                order.addOrderProduct(orderProduct);
-            }
-            session.setAttribute("order", order);
-        }
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.setProduct(product);
+        orderProduct.setQuantity(quantity);
+        cart.addOrderProduct(orderProduct);
+        List<String> categoryList = productService.getAllProductCategories().stream().distinct().toList();
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("selectedCategory", "All Categories");
+//
+//        if (product != null) {
+//            OrderProduct orderProduct = order.getOrderProductByProductId(productId);
+//            if (orderProduct != null) {
+//                orderProduct.setQuantity(orderProduct.getQuantity() + quantity);
+//            } else {
+//                orderProduct = new OrderProduct();
+//                orderProduct.setProduct(product);
+//                orderProduct.setQuantity(quantity);
+//                order.addOrderProduct(orderProduct);
+//            }
+//            session.setAttribute("order", order);
+//        }
         return "shop.html";
     }
     @GetMapping("/shop")

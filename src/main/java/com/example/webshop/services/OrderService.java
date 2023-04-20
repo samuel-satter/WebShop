@@ -1,6 +1,6 @@
 package com.example.webshop.services;
 
-import com.example.webshop.entitys.Cart;
+import com.example.webshop.model.Cart;
 import com.example.webshop.entitys.Order;
 import com.example.webshop.entitys.OrderProduct;
 import com.example.webshop.entitys.Product;

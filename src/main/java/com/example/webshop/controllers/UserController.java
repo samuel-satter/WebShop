@@ -2,7 +2,6 @@ package com.example.webshop.controllers;
 
 import com.example.webshop.entitys.Product;
 import com.example.webshop.entitys.User;
-import com.example.webshop.model.Category;
 import com.example.webshop.services.ProductService;
 import com.example.webshop.services.UserService;
 import jakarta.servlet.http.HttpSession;

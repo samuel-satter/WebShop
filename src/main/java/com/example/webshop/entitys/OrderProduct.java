@@ -44,5 +44,9 @@ public class OrderProduct {
         return getProduct().getPrice().multiply(BigDecimal.valueOf(getQuantity()));
     }
 
+    public void addQuantity(int quantity) {
+        this.quantity = this.quantity + quantity;
+    }
+
 }
 

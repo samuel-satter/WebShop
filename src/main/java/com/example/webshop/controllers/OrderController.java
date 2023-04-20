@@ -1,9 +1,8 @@
 package com.example.webshop.controllers;
 
-import com.example.webshop.entitys.Cart;
+import com.example.webshop.model.Cart;
 import com.example.webshop.entitys.Order;
 import com.example.webshop.entitys.OrderProduct;
-import com.example.webshop.entitys.Product;
 import com.example.webshop.services.OrderService;
 import com.example.webshop.services.ProductService;
 import jakarta.servlet.http.HttpSession;
@@ -11,7 +10,6 @@ import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,9 +21,10 @@ public class OrderController {
     private final OrderService orderService;
     private final ProductService productService;
 
+    private final Cart cart;
+
     @GetMapping("/cart")
     public String goToCart(Model model, HttpSession session) {
-        Cart cart = (Cart) session.getAttribute("cart");
         System.out.println("Cart object in session: " + cart);
         model.addAttribute("cart", cart);
         return "cart.html";

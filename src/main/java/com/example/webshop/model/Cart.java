@@ -1,7 +1,9 @@
-package com.example.webshop.entitys;
+package com.example.webshop.model;
 
+import com.example.webshop.entitys.Order;
+import com.example.webshop.entitys.OrderProduct;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.math.BigDecimal;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Data
 @SessionScope
+@Component
 public class Cart {
 
     OrderProduct orderProduct;
@@ -26,7 +29,20 @@ public class Cart {
         orderProducts = new ArrayList<>();
     }
     public void addOrderProduct(OrderProduct orderProduct) {
-        orderProducts.add(orderProduct);
+        if (orderProducts.size() > 0) {
+            List<OrderProduct> currentProduct = orderProducts.stream()
+                    .filter(orderProduct1 -> orderProduct1.getProduct()
+                            .getId().equals(orderProduct.getProduct().getId()))
+                    .toList();
+            if (currentProduct.size() > 0) {
+                currentProduct.get(0).addQuantity(orderProduct.getQuantity());
+            } else {
+                orderProducts.add(orderProduct);
+            }
+        } else {
+            orderProducts.add(orderProduct);
+        }
+
     }
 
     public BigDecimal getTotalPrice() {
