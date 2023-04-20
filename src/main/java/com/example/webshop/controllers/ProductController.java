@@ -70,29 +70,11 @@ public class ProductController {
     public String productList(@RequestParam(name = "productName", required = false) String productName,
                               @RequestParam(name = "selectedCategory", required = false) String selectedCategory,
                               Model model) {
-        List<Product> productList;
-        if (productName == null || productName.trim().isEmpty()) {
-            if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
-                productList = productService.getAllProducts();
-                model.addAttribute("categoryList", productService.getAllProductCategories());
-                model.addAttribute("selectedCategory","");
-            } else {
-                productList = productService.searchForProducts(null, selectedCategory);
-                model.addAttribute("categoryList", Collections.singletonList(selectedCategory));
-                model.addAttribute("selectedCategory",selectedCategory);
-            }
-        } else {
-            if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
-                productList = productService.searchForProducts(productName, null);
-                model.addAttribute("categoryList", productService.getAllProductCategories());
-                model.addAttribute("selectedCategory","");
-            } else {
-                productList = productService.searchForProducts(productName, selectedCategory);
-                model.addAttribute("categoryList", Collections.singletonList(selectedCategory));
-                model.addAttribute("selectedCategory",selectedCategory);
-            }
-        }
+        List<Product> productList = productService.searchForProducts(productName, selectedCategory);
         model.addAttribute("productList", productList);
+        model.addAttribute("categoryList", productService.getAllProductCategories());
+        model.addAttribute("selectedCategory", selectedCategory);
+
         return "shop";
     }
 

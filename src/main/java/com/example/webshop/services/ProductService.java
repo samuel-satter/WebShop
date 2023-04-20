@@ -35,10 +35,16 @@ public class ProductService {
     }
 
     public List<Product> searchForProducts(String productName, String selectedCategory) {
-        if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
-            return productRepository.findByProductNameIgnoreCase(productName);
-        } else {
+        boolean categoryExists = selectedCategory != null && !selectedCategory.isEmpty();
+        boolean productNameExists = productName != null && !productName.isEmpty();
+        if (categoryExists && productNameExists){
             return productRepository.findByProductNameContainingIgnoreCaseAndProductCategory(productName, selectedCategory);
+        } else if (!categoryExists && !productNameExists) {
+            return productRepository.findAll();
+        } else if (categoryExists) {
+            return productRepository.findByProductCategory(selectedCategory);
+        } else {
+            return productRepository.findByProductNameIgnoreCase(productName);
         }
     }
     //    public List<Product> searchForProducts(String productName, String productCategory) {

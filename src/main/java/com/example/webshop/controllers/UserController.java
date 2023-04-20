@@ -57,7 +57,7 @@ public class UserController {
                 model.addAttribute("categoryList", productList.stream().map(Product::getProductCategory)
                         .distinct()
                         .toList());
-                model.addAttribute("selectedCategory", "clothes");
+                model.addAttribute("selectedCategory", "All Categories");
                 session.setAttribute("username", username);
                 return "shop.html";
             }
