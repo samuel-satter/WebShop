@@ -15,6 +15,10 @@ public class Cart {
     OrderProduct orderProduct;
     private List<OrderProduct> orderProducts;
 
+    private Order order;
+    public void setOrder(Order order) {
+        this.order = order;
+    }
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }

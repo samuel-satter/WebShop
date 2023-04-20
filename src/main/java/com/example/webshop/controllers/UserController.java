@@ -58,6 +58,7 @@ public class UserController {
                         .distinct()
                         .toList());
                 model.addAttribute("selectedCategory", "clothes");
+                session.setAttribute("username", username);
                 return "shop.html";
             }
         } else {

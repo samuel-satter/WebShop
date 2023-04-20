@@ -39,8 +39,8 @@
         <td th:text="${product.productPrice}"/>
         <td th:text="${product.productQuantity}"/>
         <td>
-            <form th:action="@{/add-to-cart}" method="post">
-                <input type="hidden" name="id_product" th:value="${product.id}"/>
+            <form th:action="@{/add-product-to-cart}" method="post">
+                <input type="hidden" name="productId" th:value="${product.id}"/>
                 <label>
                     <input type="number" name="quantity" value="1" min="1"/>
                 </label>
@@ -53,7 +53,7 @@
 </table>
 <hr/>
 <br/>
-<!--<a href="/cart">View Cart</a>-->
+<a href="/cart">View Cart</a>
 <a th:href="@{/cart}" th:if="${cart?.orderProducts?.size() > 0}">View Cart</a>
 <br/>
 <label th:text="${feedback}"></label>

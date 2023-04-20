@@ -2,6 +2,7 @@ package com.example.webshop.entitys;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -21,10 +22,19 @@ public class OrderProduct {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("productId")
+    @NotNull
     private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
+
+    public OrderProduct(Long productId, int quantity) {
+
+    }
+
+    public OrderProduct() {
+
+    }
 
     public void removeOneFromQunatity() {
         this.quantity--;

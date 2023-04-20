@@ -40,6 +40,26 @@ public class Order {
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
+    public void updateTotalPrice() {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        for (OrderProduct orderProduct : orderProducts) {
+            totalPrice = totalPrice.add(orderProduct.getTotalPrice());
+        }
+        this.price = totalPrice;
+    }
+    public void addOrderProduct(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+    }
+    public OrderProduct getOrderProductByProductId(Long productId) {
+        for (OrderProduct orderProduct : orderProducts) {
+            if (orderProduct.getProduct().getId().equals(productId)) {
+                return orderProduct;
+            }
+        }
+        return null;
+    }
+
+
 
 
 

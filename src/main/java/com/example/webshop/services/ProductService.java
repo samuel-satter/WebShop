@@ -31,7 +31,7 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid product"));
     }
 
     public List<Product> searchForProducts(String productName, String selectedCategory) {

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmed Order</title>
+</head>
+<body>
+<h1>Order Confirmed</h1>
+<div th:if="${session.username}">
+  Thank you, <span th:text="${session.username}"></span>, for your order!
+</div>
+<div th:unless="${session.username}">
+  Thank you for your order!
+</div>
+<p>Order number: <span th:text="${orderId}"></span></p>
+<p>Total price: <span th:text="${totalPrice}"></span></p>
+</body>
+</html>
