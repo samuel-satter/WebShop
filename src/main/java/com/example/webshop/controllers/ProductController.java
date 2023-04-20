@@ -3,10 +3,8 @@ package com.example.webshop.controllers;
 import com.example.webshop.entitys.Cart;
 import com.example.webshop.entitys.OrderProduct;
 import com.example.webshop.entitys.Product;
-import com.example.webshop.model.Category;
 import com.example.webshop.repositorys.ProductRepository;
 import com.example.webshop.services.ProductService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -16,10 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.net.http.HttpRequest;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Controller
@@ -40,8 +36,8 @@ public class ProductController {
     @PostMapping("/add-product")
     public String addProduct(@ModelAttribute("product") Product product, Model model) {
         productRepository.save(product);
-        String newInstruction = String.format("Added %s", product);
-        model.addAttribute("instruction", newInstruction);
+        String feedback = String.format("Added %s", product);
+        model.addAttribute("instruction", feedback);
         return "add-products.html";
     }
     @GetMapping("/shop")
@@ -74,22 +70,5 @@ public class ProductController {
         return "shop";
     }
 
-    @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam("id_product") Long id, @RequestParam("quantity") int quantity, HttpSession session) {
-        Cart cart = (Cart) session.getAttribute("cart");
-        if (cart == null) {
-            cart = new Cart();
-            session.setAttribute("cart", cart);
-        }
-
-        Product product = productService.findById(id);
-
-        OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setProduct(product);
-        orderProduct.setQuantity(quantity);
-
-        cart.addOrderProduct(orderProduct);
-
-        return "redirect:/cart";
-    }
+   
 }

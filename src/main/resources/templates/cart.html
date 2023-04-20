@@ -6,27 +6,31 @@
 </head>
 <body>
 <table>
-  <thead>
-  <tr>
-    <th>Product Name</th>
-    <th>Quantity</th>
-    <th>Price</th>
-    <th>Subtotal</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="orderProduct : ${cart.orderProductsList}">
-    <td th:text="${orderProduct.product.name}"></td>
-    <td th:text="${orderProduct.quantity}"></td>
-    <td th:text="${orderProduct.product.price}"></td>
-    <td th:text="${orderProduct.totalPrice}"></td>
-  </tr>
-  <tr>
-    <td colspan="3">Total:</td>
-    <td th:text="${cart.totalPrice}"></td>
-  </tr>
-  </tbody>
+    <thead>
+    <tr>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody th:if="${cart?.orderProducts?.size() == 0}">
+    <tr>
+        <td colspan="4">Cart is empty</td>
+    </tr>
+    </tbody>
+    <tbody th:if="${cart?.orderProducts?.size() > 0}">
+    <tr th:each="orderProduct : ${cart.orderProducts}">
+        <td th:text="${orderProduct.product.productName}"></td>
+        <td th:text="${orderProduct.quantity}"></td>
+        <td th:text="${orderProduct.product.price}"></td>
+        <td th:text="${orderProduct.totalPrice}"></td>
+    </tr>
+    <tr>
+        <td colspan="3">Total:</td>
+        <td th:text="${cart.totalPrice}"></td>
+    </tr>
+    </tbody>
 </table>
-
 </body>
 </html>

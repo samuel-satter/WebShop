@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Shop</h1>
-<hr />
+<hr/>
 <form id="shopform" th:action="@{/shop}" method="get">
     <label>
         <input type="text" name="productName" th:value="${productName}"/>
@@ -51,5 +51,11 @@
 
     </tbody>
 </table>
+<hr/>
+<br/>
+<!--<a href="/cart">View Cart</a>-->
+<a th:href="@{/cart}" th:if="${cart?.orderProducts?.size() > 0}">View Cart</a>
+<br/>
+<label th:text="${feedback}"></label>
 </body>
 </html>
