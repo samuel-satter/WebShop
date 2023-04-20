@@ -6,27 +6,50 @@
     <title>Shop</title>
 </head>
 <body>
-    <h1>Shop</h1>
-    <hr />
-        <form th:action="@{/shop}" method="get">
-            <input type="text" name="searchQuery" th:value="${query}"/>
-            <button type="submit">Search</button>
-        </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="product : ${productList}">
-                <td th:text="${product.name}"/>
-                <td th:text="${product.price}"/>
-                <td th:text="${product.quantity}"/>
-            </tr>
-        </tbody>
-    </table>
+<h1>Shop</h1>
+<hr />
+<form id="shopform" th:action="@{/shop}" method="get">
+    <label>
+        <input type="text" name="productName" th:value="${productName}"/>
+    </label>
+    <label>
+        <select name="selectedCategory" onchange="this.form.submit()">
+            <option value="" th:selected="${selectedCategory == ''}">All Categories</option>
+            <option th:each="category : ${categoryList}"
+                    th:value="${category}"
+                    th:text="${category}"
+                    th:selected="${category == selectedCategory}">
+            </option>
+        </select>
+    </label>
+    <button type="submit">Search</button>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${productList}">
+        <td th:text="${product.productName}"/>
+        <td th:text="${product.productPrice}"/>
+        <td th:text="${product.productQuantity}"/>
+        <td>
+            <form th:action="@{/add-to-cart}" method="post">
+                <input type="hidden" name="id_product" th:value="${product.id}"/>
+                <label>
+                    <input type="number" name="quantity" value="1" min="1"/>
+                </label>
+                <button type="submit">Add to Cart</button>
+            </form>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
 </body>
 </html>

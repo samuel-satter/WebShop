@@ -40,19 +40,7 @@ public class Order {
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    public BigDecimal getTotalOrderSum() {
-        BigDecimal sum = BigDecimal.ZERO;
-        List<OrderProduct> orderProducts1 = getOrderProducts();
-        for (OrderProduct orderProduct : orderProducts1) {
-            sum = sum.add(orderProduct.getTotalPrice());
-        }
-        return sum;
-    }
 
-    public List<OrderProduct> deleteFromListOfOrderProducts(int id) {
-        getOrderProducts().remove(id);
-        return getOrderProducts();
-    }
 
 
 }

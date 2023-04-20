@@ -1,15 +1,19 @@
 package com.example.webshop.services;
 
+import com.example.webshop.entitys.Product;
 import com.example.webshop.entitys.User;
 import com.example.webshop.repositorys.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
-@Transactional
+@SessionScope
 public class UserService {
     private final UserRepository userRepository;
 
@@ -24,22 +28,20 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Optional<User> authenticateUser(String username, String password) {
+    public User authenticateUser(String username, String password) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (password.equals(user.getPassword())) {
-                return optionalUser;
+                return user;
             }
         }
-        return Optional.empty();
+        return null;
     }
 
-    public boolean isUserAdmin() {
-        if (user == null) {
-            return false;
-        }
-        return userRepository.isUserAdmin(user.isUserAdmin()).isUserAdmin();
+
+    public boolean isUserAdmin(User user) {
+        return user.isAdmin();
     }
 
 }

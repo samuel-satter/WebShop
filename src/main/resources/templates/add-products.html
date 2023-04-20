@@ -5,7 +5,10 @@
     <title>Add products</title>
 </head>
 <body>
-<form action="#" th:action="@{/products}" th:object="${product}" method="post">
+<label th:text="${instruction}"></label>
+<hr />
+<br />
+<form action="#" th:action="@{/add-product}" th:object="${product}" method="post">
     <label for="name">Name:</label>
     <input type="text" id="name" name="productName" th:field="*{productName}"/>
 
@@ -14,6 +17,8 @@
 
     <label for="quantity">Quantity:</label>
     <input type="number" id="quantity" name="productQuantity" th:field="*{productQuantity}"/>
+
+    <button type="submit" name="submit">Submit Product</button>
 </form>
 </body>
 </html>

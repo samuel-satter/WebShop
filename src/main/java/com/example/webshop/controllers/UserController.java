@@ -1,6 +1,9 @@
 package com.example.webshop.controllers;
 
+import com.example.webshop.entitys.Product;
 import com.example.webshop.entitys.User;
+import com.example.webshop.model.Category;
+import com.example.webshop.services.ProductService;
 import com.example.webshop.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
@@ -11,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Optional;
+import java.util.List;
 
 @Data
 @Controller
@@ -20,9 +23,12 @@ public class UserController {
     private final UserService userService;
     User user;
 
+    private final ProductService productService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ProductService productService) {
         this.userService = userService;
+        this.productService = productService;
     }
 
     @GetMapping("/newUser")
@@ -41,18 +47,24 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
-        Optional<User> user = userService.tryFindingByUsernameAndPassword(username, password);
-        if (user.isPresent()) {
+        User user = userService.authenticateUser(username, password);
+        if (user != null) {
             session.setAttribute("user", user);
-            if (userService.isUserAdmin()) {
+            if (userService.isUserAdmin(user)) {
                 return "admin.html";
             } else {
+                List<Product> productList = productService.getAllProducts();
+                model.addAttribute("categoryList", productList.stream().map(Product::getProductCategory)
+                        .distinct()
+                        .toList());
+                model.addAttribute("selectedCategory", "clothes");
                 return "shop.html";
             }
         } else {
             model.addAttribute("error", "Invalid username or password");
-            return "login.html";
+            return "index.html";
         }
     }
+
 
 }

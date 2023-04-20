@@ -3,8 +3,10 @@ package com.example.webshop.controllers;
 import com.example.webshop.entitys.Cart;
 import com.example.webshop.entitys.OrderProduct;
 import com.example.webshop.entitys.Product;
+import com.example.webshop.model.Category;
 import com.example.webshop.repositorys.ProductRepository;
 import com.example.webshop.services.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.http.HttpRequest;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Controller
@@ -25,22 +30,48 @@ public class ProductController {
 
     private final ProductRepository productRepository;
 
-    @PostMapping("/admin")
-    public String addProduct(@ModelAttribute("product") Product product) {
-        productRepository.save(product);
-        return "admin.html";
+    @GetMapping("/add-products")
+    public String addProductsPage(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("instruction", "Please add a product");
+        return "add-products.html";
     }
 
+    @PostMapping("/add-product")
+    public String addProduct(@ModelAttribute("product") Product product, Model model) {
+        productRepository.save(product);
+        String newInstruction = String.format("Added %s", product);
+        model.addAttribute("instruction", newInstruction);
+        return "add-products.html";
+    }
     @GetMapping("/shop")
-    public String productList(@RequestParam(name = "query", required = false) String query, Model model) {
+    public String productList(@RequestParam(name = "productName", required = false) String productName,
+                              @RequestParam(name = "selectedCategory", required = false) String selectedCategory,
+                              Model model) {
         List<Product> productList;
-        if (query == null || query.trim().isEmpty()) {
-            productList = productService.getAllProducts();
+        if (productName == null || productName.trim().isEmpty()) {
+            if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
+                productList = productService.getAllProducts();
+                model.addAttribute("categoryList", productService.getAllProductCategories());
+                model.addAttribute("selectedCategory","");
+            } else {
+                productList = productService.searchForProducts(null, selectedCategory);
+                model.addAttribute("categoryList", Collections.singletonList(selectedCategory));
+                model.addAttribute("selectedCategory",selectedCategory);
+            }
         } else {
-            productList = productService.searchForProducts(query);
+            if (selectedCategory == null || selectedCategory.trim().isEmpty()) {
+                productList = productService.searchForProducts(productName, null);
+                model.addAttribute("categoryList", productService.getAllProductCategories());
+                model.addAttribute("selectedCategory","");
+            } else {
+                productList = productService.searchForProducts(productName, selectedCategory);
+                model.addAttribute("categoryList", Collections.singletonList(selectedCategory));
+                model.addAttribute("selectedCategory",selectedCategory);
+            }
         }
         model.addAttribute("productList", productList);
-        return "shop.html";
+        return "shop";
     }
 
     @PostMapping("/add-to-cart")
@@ -56,6 +87,8 @@ public class ProductController {
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setProduct(product);
         orderProduct.setQuantity(quantity);
+
+        cart.addOrderProduct(orderProduct);
 
         return "redirect:/cart";
     }

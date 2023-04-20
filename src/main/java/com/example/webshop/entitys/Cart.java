@@ -4,23 +4,30 @@ import lombok.Data;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @SessionScope
 public class Cart {
 
-    private List<OrderProduct> orderProductsList = new ArrayList<>();
+    OrderProduct orderProduct;
+    private List<OrderProduct> orderProducts;
+
+    public List<OrderProduct> getOrderProducts() {
+        return orderProducts;
+    }
+    public void addOrderProduct(OrderProduct orderProduct) {
+        orderProducts.add(orderProduct);
+    }
 
     public BigDecimal getTotalPrice() {
-        return orderProductsList.stream()
+        return orderProducts.stream()
                 .map(OrderProduct :: getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public void clear() {
-        orderProductsList.clear();
+        orderProducts.clear();
     }
 
 

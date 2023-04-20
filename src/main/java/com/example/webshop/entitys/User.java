@@ -9,7 +9,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User {
-    @Setter(AccessLevel.PROTECTED)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +22,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "is_admin_user")
-    private boolean isUserAdmin;
+    @Column(name = "admin")
+    private boolean admin;
 
 }

@@ -26,6 +26,10 @@ public class OrderProduct {
     @Column(nullable = false)
     private Integer quantity;
 
+    public void removeOneFromQunatity() {
+        this.quantity--;
+    }
+
     public BigDecimal getTotalPrice() {
         return getProduct().getPrice().multiply(BigDecimal.valueOf(getQuantity()));
     }

@@ -1,7 +1,6 @@
 package com.example.webshop.entitys;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -27,7 +26,8 @@ public class Product {
     @Column(name = "quantity")
     private int productQuantity;
 
-
+    @Column(name = "category")
+    private String productCategory;
     public BigDecimal getPrice() {
         return productPrice;
     }

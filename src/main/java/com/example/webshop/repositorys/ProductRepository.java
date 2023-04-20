@@ -2,6 +2,7 @@ package com.example.webshop.repositorys;
 
 import com.example.webshop.entitys.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +15,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Override
     List<Product> findAll();
 
-    List<Product> findByproductNameContainingIgnoreCase(String query);
+    List<Product> findByProductNameIgnoreCase(String productName);
+
+    List<Product> findByProductNameContainingIgnoreCaseAndProductCategory(String productName, String productCategory);
+
+    @Query("SELECT DISTINCT p.productCategory FROM Product p")
+    List<String> findAllProductCategories();
 
 }
 
