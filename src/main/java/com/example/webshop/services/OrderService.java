@@ -32,14 +32,14 @@ public class OrderService {
 
     private final ProductService productService;
 
-    private final OrderProductPK orderProductPK;
+
 
     @Autowired
-    public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, OrderProductPK orderProductPK, Cart cart) {
+    public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, Cart cart) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.productService = productService;
-        this.orderProductPK = orderProductPK;
+
         this.cart = cart;
     }
 
