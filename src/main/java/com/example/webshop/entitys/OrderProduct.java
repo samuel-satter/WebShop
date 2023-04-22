@@ -3,37 +3,46 @@ package com.example.webshop.entitys;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "order_products")
 public class OrderProduct {
 
-    @EmbeddedId
-    private OrderProductPK id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @MapsId("orderId")
+//    private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("orderId")
-    private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("productId")
-    @NotNull
     private Product product;
 
-    @Column(nullable = false)
     private Integer quantity;
 
-    public OrderProduct(Long productId, int quantity) {
+//    @Column(nullable = false)
+//    private BigDecimal price;
 
-    }
 
-    public OrderProduct() {
+//    public OrderProduct(Order order, Product product, Integer quantity) {
+//        id = new OrderProductPK();
+//        id.setOrder(order);
+//        id.setProduct(product);
+//        this.quantity = quantity;
+//    }
 
+
+    public OrderProduct(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
     }
 
     public void removeOneFromQunatity() {

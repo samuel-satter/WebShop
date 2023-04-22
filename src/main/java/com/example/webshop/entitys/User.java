@@ -1,22 +1,21 @@
 package com.example.webshop.entitys;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_id", nullable = false)
     private Long id;
-
     @Column(name = "username")
-    @Email
     private String username;
 
     @Column(name = "password")
@@ -24,5 +23,16 @@ public class User {
 
     @Column(name = "admin")
     private boolean admin;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<UserOrder> userOrders;
+
+
+    public User() {
+      userOrders = new ArrayList<>();
+    }
+    public void addOrder(UserOrder userOrder) {
+        userOrders.add(userOrder);
+    }
 
 }

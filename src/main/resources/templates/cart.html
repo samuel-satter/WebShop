@@ -1,3 +1,47 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Cart</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Product Name</th>-->
+<!--        <th>Quantity</th>-->
+<!--        <th>Price</th>-->
+<!--        <th>Subtotal</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody th:if="${cart?.orderProducts?.size() == 0}">-->
+<!--    <tr>-->
+<!--        <td colspan="4">Cart is empty</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--    <tbody th:if="${cart?.orderProducts?.size() > 0}">-->
+<!--    <tr th:each="orderProduct : ${cart.orderProducts}">-->
+<!--        <td th:text="${orderProduct.product.productName}"></td>-->
+<!--        <td th:text="${orderProduct.quantity}"></td>-->
+<!--        <td th:text="${orderProduct.product.price}"></td>-->
+<!--        <td th:text="${orderProduct.totalPrice}"></td>-->
+<!--        <td th:text="${orderProduct.product.id}"></td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td colspan="3">Total:</td>-->
+<!--        <td th:text="${cart.totalPrice}"></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+<!--<form method="post" action="/remove-product-from-cart">-->
+<!--    <input type="hidden" name="id" value="${product.id}">-->
+<!--    <button type="submit">Remove from cart</button>-->
+<!--</form>-->
+<!--<form method="POST" action="/confirm-order">-->
+<!--    <button type="submit">Confirm Order</button>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -12,23 +56,31 @@
         <th>Quantity</th>
         <th>Price</th>
         <th>Subtotal</th>
+        <th></th>
     </tr>
     </thead>
     <tbody th:if="${cart?.orderProducts?.size() == 0}">
     <tr>
-        <td colspan="4">Cart is empty</td>
+        <td colspan="5">Cart is empty</td>
     </tr>
     </tbody>
     <tbody th:if="${cart?.orderProducts?.size() > 0}">
-    <tr th:each="orderProduct : ${cart.orderProducts}">
+    <tr th:each="orderProduct, index : ${cart.orderProducts}">
         <td th:text="${orderProduct.product.productName}"></td>
         <td th:text="${orderProduct.quantity}"></td>
         <td th:text="${orderProduct.product.price}"></td>
         <td th:text="${orderProduct.totalPrice}"></td>
+        <td>
+            <form method="post" action="/remove-product-from-cart">
+                <input type="hidden" name="index" th:value="${index.index}">
+                <button type="submit">Remove</button>
+            </form>
+        </td>
     </tr>
     <tr>
         <td colspan="3">Total:</td>
         <td th:text="${cart.totalPrice}"></td>
+        <td></td>
     </tr>
     </tbody>
 </table>
@@ -36,4 +88,5 @@
     <button type="submit">Confirm Order</button>
 </form>
 </body>
-</html>
+
+

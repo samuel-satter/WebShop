@@ -36,9 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/newUser")
-    public String addNewUser(@RequestParam String email, @RequestParam String password) {
+    public String addNewUser(@RequestParam String username, @RequestParam String password) {
         User user = new User();
-        user.setUsername(email);
+        user.setUsername(username);
         user.setPassword(password);
         userService.saveUser(user);
         return "index.html";

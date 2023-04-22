@@ -59,19 +59,6 @@ public class ProductController {
         List<String> categoryList = productService.getAllProductCategories().stream().distinct().toList();
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("selectedCategory", "All Categories");
-//
-//        if (product != null) {
-//            OrderProduct orderProduct = order.getOrderProductByProductId(productId);
-//            if (orderProduct != null) {
-//                orderProduct.setQuantity(orderProduct.getQuantity() + quantity);
-//            } else {
-//                orderProduct = new OrderProduct();
-//                orderProduct.setProduct(product);
-//                orderProduct.setQuantity(quantity);
-//                order.addOrderProduct(orderProduct);
-//            }
-//            session.setAttribute("order", order);
-//        }
         return "shop.html";
     }
     @GetMapping("/shop")
@@ -85,6 +72,4 @@ public class ProductController {
 
         return "shop";
     }
-
-   
 }

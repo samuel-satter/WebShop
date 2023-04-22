@@ -45,13 +45,22 @@ public class Cart {
 
     }
 
+    public List<OrderProduct> deleteFromListOfOrderProducts(int index) {
+        if (getOrderProducts().get(index).getQuantity() == 1) {
+            getOrderProducts().remove(index);
+        } else {
+            getOrderProducts().get(index).removeOneFromQunatity();
+        }
+        return getOrderProducts();
+    }
+
     public BigDecimal getTotalPrice() {
         return orderProducts.stream()
                 .map(OrderProduct :: getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public void clear() {
+    public void clearCart() {
         orderProducts.clear();
     }
 

@@ -2,9 +2,9 @@ package com.example.webshop.entitys;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
-    @Setter(AccessLevel.PROTECTED)
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,8 +28,8 @@ public class Order {
     @Column(name = "customer_name")
     private String customerName;
 
-    @Column(name = "product_name")
-    private String productName;
+//    @Column(name = "product_name")
+//    private String productName;
 
     @Column(name = "quantity")
     private int quantity;
@@ -36,9 +40,11 @@ public class Order {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
+
+
 
     public void updateTotalPrice() {
         BigDecimal totalPrice = BigDecimal.ZERO;
@@ -58,4 +64,5 @@ public class Order {
         }
         return null;
     }
+
 }
