@@ -11,19 +11,15 @@
       <thead>
       <tr>
         <th>Order ID</th>
-        <th>Customer Name</th>
-        <th>Product Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
+        <th>Status</th>
+        <th>User ID</th>
       </tr>
       </thead>
       <tbody>
-        <tr th:each="order : ${orderList}">
-          <td th:text="${order.getCustomerName()}"></td>
-          <td th:text="${order.getProductName()}"></td>
-          <td th:text="${order.getPrice()}"></td>
-          <td th:text="${order.getQuantity()}"></td>
-          <td th:text="${order.getDateCreated()}"></td>
+        <tr th:each="userOrder : ${userOrders}">
+          <td th:text="${userOrder.id}"></td>
+          <td th:text="${userOrder.isShipped}"></td>
+          <td th:text="${userOrder.user.user.id}"></td>
         </tr>
       </tbody>
     </table>

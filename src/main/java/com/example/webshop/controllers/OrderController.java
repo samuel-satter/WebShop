@@ -1,10 +1,13 @@
 package com.example.webshop.controllers;
 
+import com.example.webshop.entitys.OrderProduct;
 import com.example.webshop.entitys.User;
+import com.example.webshop.entitys.UserOrder;
 import com.example.webshop.model.Cart;
 import com.example.webshop.entitys.Order;
 import com.example.webshop.services.OrderService;
 import com.example.webshop.services.ProductService;
+import com.example.webshop.services.UserOrderService;
 import com.example.webshop.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Controller
@@ -24,6 +29,8 @@ public class OrderController {
     private final ProductService productService;
 
     private final UserService userService;
+
+    private final UserOrderService userOrderService;
 
     private final Cart cart;
 
@@ -57,23 +64,13 @@ public class OrderController {
 
         return "cart.html";
     }
-//    @PostMapping("/remove-all-products-from-cart")
-//    public String removeAllProductsFromCart(){
-//
-//    }
 
     @PostMapping("/confirm-order")
     public String confirmOrder(HttpSession session, Model model) throws Exception {
         String username = (String) session.getAttribute("username");
         User user = userService.findByUsername(username).orElseThrow();
+        orderService.createOrder(user, cart);
         orderService.addOrder(user);
-//        Order order = orderService.createOrder(user, cart);
-//        orderService.saveOrder(order);
-//        session.removeAttribute("order");
-//        cart.clearCart();
-//        model.addAttribute("orderId", order.getId());
-//        model.addAttribute("totalPrice", order.getPrice());
-//        model.addAttribute("customerName", user.getUsername());
         model.addAttribute("cart", cart);
         return "confirmed-order.html";
     }
@@ -81,10 +78,16 @@ public class OrderController {
 
     @GetMapping("/confirmed-order")
     public String showConfirmedOrder(Model model, HttpSession session) {
-//        model.addAttribute("order", order);
         model.addAttribute("cart", cart);
         String customerName = (String) session.getAttribute("username");
         model.addAttribute("customerName", customerName);
         return "confirmed-order.html";
+    }
+
+    @GetMapping("/order-list")
+    public String showListOfOrders(Model model) {
+        List<UserOrder> userOrders = userOrderService.getAllUserOrders();
+        model.addAttribute("userOrder", userOrders);
+        return "order-list.html";
     }
 }

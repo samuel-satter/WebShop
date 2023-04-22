@@ -28,9 +28,6 @@ public class Order {
     @Column(name = "customer_name")
     private String customerName;
 
-//    @Column(name = "product_name")
-//    private String productName;
-
     @Column(name = "quantity")
     private int quantity;
 

@@ -3,6 +3,7 @@ package com.example.webshop.services;
 import com.example.webshop.entitys.*;
 import com.example.webshop.model.Cart;
 import com.example.webshop.repositorys.OrderRepository;
+import com.example.webshop.repositorys.UserOrderRepository;
 import com.example.webshop.repositorys.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.web.context.annotation.SessionScope;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,6 +28,8 @@ public class OrderService {
 
     private final UserRepository userRepository;
 
+    private final UserOrderRepository userOrderRepository;
+
     private final OrderRepository orderRepository;
 
     private final ProductService productService;
@@ -35,12 +37,12 @@ public class OrderService {
 
 
     @Autowired
-    public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, Cart cart) {
+    public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, Cart cart, UserOrderRepository userOrderRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.productService = productService;
-
         this.cart = cart;
+        this.userOrderRepository = userOrderRepository;
     }
 
     public void addOrder(User user) {
@@ -72,16 +74,17 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public Order createOrder(User user, Cart cart) {
-        Order order = new Order();
-        order.setUser(user);
+    public void createOrder(User user, Cart cart) {
+        order = new Order();
         order.setCustomerName(user.getUsername());
-        List<OrderProduct> orderProducts = new ArrayList<>(cart.getOrderProducts());
+        order.setPrice(cart.getTotalPrice());
         order.setDateCreated(LocalDate.now());
-        order.setOrderProducts(orderProducts);
-        order.updateTotalPrice();
-
-        return order;
+        order.setUser(user);
+        int quantity = cart.getOrderProducts().stream()
+                .map(OrderProduct:: getQuantity)
+                .reduce(0, Integer::sum);
+        order.setQuantity(quantity);
+        orderRepository.save(order);
     }
     public List<OrderProduct> deletePrdouctFromListOfProducts(int id) {
         return cart.deleteFromListOfOrderProducts(id);
@@ -106,6 +109,8 @@ public class OrderService {
         }
         return null;
     }
+
+
 
 
 }
