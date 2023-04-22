@@ -13,6 +13,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @SessionScope
@@ -21,7 +22,7 @@ public class OrderService {
 
 
 
-    private Order order;
+//    private Order order;
     private Cart cart;
 
     private User user;
@@ -61,25 +62,32 @@ public class OrderService {
     }
 
 
-    public BigDecimal getTotalOrderSum() {
-        BigDecimal sum = BigDecimal.ZERO;
-        List<OrderProduct> orderProducts1 = order.getOrderProducts();
-        for (OrderProduct orderProduct : orderProducts1) {
-            sum = sum.add(orderProduct.getTotalPrice());
-        }
-        return sum;
-    }
+//    public BigDecimal getTotalOrderSum() {
+//        BigDecimal sum = BigDecimal.ZERO;
+//        List<OrderProduct> orderProducts1 = order.getOrderProducts();
+//        for (OrderProduct orderProduct : orderProducts1) {
+//            sum = sum.add(orderProduct.getTotalPrice());
+//        }
+//        return sum;
+//    }
 
     public void saveOrder(Order order) {
         orderRepository.save(order);
     }
 
+    public Order getOrder(Long orderId ) {
+        return orderRepository
+                .findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("no order with that id"));
+    }
+
     public void createOrder(User user, Cart cart) {
-        order = new Order();
+        Order order = new Order();
         order.setCustomerName(user.getUsername());
         order.setPrice(cart.getTotalPrice());
         order.setDateCreated(LocalDate.now());
         order.setUser(user);
+        order.setShipped(false);
         int quantity = cart.getOrderProducts().stream()
                 .map(OrderProduct:: getQuantity)
                 .reduce(0, Integer::sum);

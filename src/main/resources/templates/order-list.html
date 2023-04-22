@@ -5,23 +5,38 @@
     <title>Order</title>
 </head>
 <body>
-  <H1>Order List</H1>
-    <hr />
-    <table>
-      <thead>
-      <tr>
+<H1>Order List</H1>
+<hr/>
+<table>
+    <thead>
+    <tr>
         <th>Order ID</th>
-        <th>Status</th>
-        <th>User ID</th>
-      </tr>
-      </thead>
-      <tbody>
-        <tr th:each="userOrder : ${userOrders}">
-          <td th:text="${userOrder.id}"></td>
-          <td th:text="${userOrder.isShipped}"></td>
-          <td th:text="${userOrder.user.user.id}"></td>
-        </tr>
-      </tbody>
-    </table>
+        <th>Customer name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Date Created</th>
+        <th>Is Shipped</th>
+        <th>Confirm Shipping</th>
+        <!--        <th>User ID</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order: ${orders}">
+        <td th:text="${order.getId()}"></td>
+        <td th:text="${order.getCustomerName()}"></td>
+        <td th:text="${order.getPrice()}"></td>
+        <td th:text="${order.getQuantity()}"></td>
+        <td th:text="${order.getDateCreated()}"></td>
+        <td th:text="${order.isShipped()}"></td>
+        <td th:if="${!order.isShipped()}">
+            <form method="post" action="/confirm-shipping">
+                <input type="hidden" name="orderId" th:value="${order.getId()}">
+                <button type="submit">Confirm</button>
+            </form>
+        </td>
+        <!--          <td th:text="${order.getUser().getId()}"></td>-->
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

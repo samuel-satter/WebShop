@@ -1,25 +1,20 @@
 package com.example.webshop.controllers;
 
-import com.example.webshop.entitys.OrderProduct;
-import com.example.webshop.entitys.User;
-import com.example.webshop.entitys.UserOrder;
-import com.example.webshop.model.Cart;
 import com.example.webshop.entitys.Order;
+import com.example.webshop.entitys.User;
+import com.example.webshop.model.Cart;
 import com.example.webshop.services.OrderService;
 import com.example.webshop.services.ProductService;
 import com.example.webshop.services.UserOrderService;
 import com.example.webshop.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -86,8 +81,21 @@ public class OrderController {
 
     @GetMapping("/order-list")
     public String showListOfOrders(Model model) {
-        List<UserOrder> userOrders = userOrderService.getAllUserOrders();
-        model.addAttribute("userOrder", userOrders);
+        List<Order> orders = orderService.getOrderRepository().findAll();
+        System.out.println(orders);
+        model.addAttribute("orders", orders);
         return "order-list.html";
+    }
+
+    @PostMapping("/confirm-shipping")
+    public String confirmShipping(@RequestParam(name = "orderId")Long orderId, Model model) {
+        System.out.println(orderId);
+        System.out.println(model);
+        Order order = orderService.getOrder(orderId);
+        order.setShipped(true);
+        orderService.saveOrder(order);
+        List<Order> orders = orderService.getOrderRepository().findAll();
+        model.addAttribute("orders", orders);
+       return "order-list.html";
     }
 }

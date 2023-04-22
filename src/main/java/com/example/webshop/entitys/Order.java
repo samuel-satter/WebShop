@@ -34,6 +34,7 @@ public class Order {
     @Column(name = "price")
     private BigDecimal price;
 
+    private boolean isShipped;
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
