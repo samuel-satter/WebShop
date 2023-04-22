@@ -1,14 +1,14 @@
 package com.example.webshop.entitys;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 @Entity
 public class User {
 
@@ -31,6 +31,10 @@ public class User {
 
     public User() {
       userOrders = new ArrayList<>();
+    }
+
+    public User(String username){
+        this.username = username;
     }
 
     public void addOrder(UserOrder userOrder) {

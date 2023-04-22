@@ -1,11 +1,15 @@
 package com.example.webshop.entitys;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "products")
 public class Product {
@@ -27,6 +31,11 @@ public class Product {
 
     @Column(name = "category")
     private String productCategory;
+
+    public Product(String productName, BigDecimal productPrice) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+    }
 
     public BigDecimal getPrice() {
         return productPrice;

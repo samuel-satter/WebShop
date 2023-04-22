@@ -22,6 +22,11 @@ public class OrderProduct {
 
     private Integer quantity;
 
+    public OrderProduct(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+
     public void removeOneFromQuantity() {
         this.quantity--;
     }

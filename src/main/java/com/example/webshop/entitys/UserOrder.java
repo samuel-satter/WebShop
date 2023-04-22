@@ -1,10 +1,13 @@
 package com.example.webshop.entitys;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "user_order")
 public class UserOrder {
@@ -26,7 +29,4 @@ public class UserOrder {
         this.orderProducts = orderProducts;
         this.user = user;
     }
-
-    public UserOrder() {}
-
 }
