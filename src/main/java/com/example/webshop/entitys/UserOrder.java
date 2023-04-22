@@ -20,8 +20,7 @@ public class UserOrder {
     @ManyToOne
     User user;
 
-    boolean isShipped;
-
+    private boolean isShipped;
 
     public UserOrder(List<OrderProduct> orderProducts, User user) {
         this.orderProducts = orderProducts;
@@ -29,6 +28,5 @@ public class UserOrder {
     }
 
     public UserOrder() {}
-
 
 }

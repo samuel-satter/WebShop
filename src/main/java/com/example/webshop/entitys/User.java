@@ -11,10 +11,12 @@ import java.util.List;
 @Data
 @Entity
 public class User {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
     private Long id;
+
     @Column(name = "username")
     private String username;
 
@@ -27,12 +29,11 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<UserOrder> userOrders;
 
-
     public User() {
       userOrders = new ArrayList<>();
     }
+
     public void addOrder(UserOrder userOrder) {
         userOrders.add(userOrder);
     }
-
 }

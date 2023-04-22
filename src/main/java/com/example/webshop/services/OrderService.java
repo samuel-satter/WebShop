@@ -10,19 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @SessionScope
 @Data
 public class OrderService {
 
-
-
-//    private Order order;
     private Cart cart;
 
     private User user;
@@ -34,8 +29,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final ProductService productService;
-
-
 
     @Autowired
     public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, Cart cart, UserOrderRepository userOrderRepository) {
@@ -50,26 +43,6 @@ public class OrderService {
         user.addOrder(new UserOrder(cart.getOrderProducts(), user));
         user = userRepository.save(user);
     }
-
-
-
-//    public void createCart(Cart cart) {
-//        cart = new Cart();
-//    }
-
-    public List<OrderProduct> getProductsInCart() {
-        return cart.getOrderProducts();
-    }
-
-
-//    public BigDecimal getTotalOrderSum() {
-//        BigDecimal sum = BigDecimal.ZERO;
-//        List<OrderProduct> orderProducts1 = order.getOrderProducts();
-//        for (OrderProduct orderProduct : orderProducts1) {
-//            sum = sum.add(orderProduct.getTotalPrice());
-//        }
-//        return sum;
-//    }
 
     public void saveOrder(Order order) {
         orderRepository.save(order);
@@ -94,9 +67,11 @@ public class OrderService {
         order.setQuantity(quantity);
         orderRepository.save(order);
     }
-    public List<OrderProduct> deletePrdouctFromListOfProducts(int id) {
-        return cart.deleteFromListOfOrderProducts(id);
+
+    public void deleteProductFromListOfProducts(int id) {
+        cart.deleteFromListOfOrderProducts(id);
     }
+
     public void addProductToOrder(Order order, Long productId, int quantity) {
         Product product = productService.findById(productId);
         OrderProduct orderProduct = getOrderProductFromOrder(order, productId);
@@ -117,9 +92,5 @@ public class OrderService {
         }
         return null;
     }
-
-
-
-
 }
 

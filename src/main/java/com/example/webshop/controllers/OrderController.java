@@ -32,7 +32,7 @@ public class OrderController {
     Order order;
 
     @GetMapping("/cart")
-    public String goToCart(Model model, HttpSession session) {
+    public String goToCart(Model model) {
         System.out.println("Cart object in session: " + cart);
         model.addAttribute("cart", cart);
         return "cart.html";
@@ -53,7 +53,7 @@ public class OrderController {
 
     @PostMapping("/remove-product-from-cart")
     public String removeProductFromCart(@RequestParam("index") int index, Model model) {
-        orderService.deletePrdouctFromListOfProducts(index);
+        orderService.deleteProductFromListOfProducts(index);
         model.addAttribute("quantity", orderService.getCart().getTotalPrice());
         model.addAttribute("cart", orderService.getCart());
 
@@ -61,7 +61,7 @@ public class OrderController {
     }
 
     @PostMapping("/confirm-order")
-    public String confirmOrder(HttpSession session, Model model) throws Exception {
+    public String confirmOrder(HttpSession session, Model model) {
         String username = (String) session.getAttribute("username");
         User user = userService.findByUsername(username).orElseThrow();
         orderService.createOrder(user, cart);

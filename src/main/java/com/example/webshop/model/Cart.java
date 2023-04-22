@@ -19,9 +19,7 @@ public class Cart {
     private List<OrderProduct> orderProducts;
 
     private Order order;
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
@@ -42,16 +40,14 @@ public class Cart {
         } else {
             orderProducts.add(orderProduct);
         }
-
     }
 
-    public List<OrderProduct> deleteFromListOfOrderProducts(int index) {
+    public void deleteFromListOfOrderProducts(int index) {
         if (getOrderProducts().get(index).getQuantity() == 1) {
             getOrderProducts().remove(index);
         } else {
-            getOrderProducts().get(index).removeOneFromQunatity();
+            getOrderProducts().get(index).removeOneFromQuantity();
         }
-        return getOrderProducts();
     }
 
     public BigDecimal getTotalPrice() {
@@ -59,10 +55,4 @@ public class Cart {
                 .map(OrderProduct :: getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
-    public void clearCart() {
-        orderProducts.clear();
-    }
-
-
 }

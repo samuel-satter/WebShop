@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @SessionScope
 public class ProductService {
 
-    private final ProductRepository productRepository;
-
     Product product;
+
+    private final ProductRepository productRepository;
 
     @Autowired
     public ProductService(ProductRepository productRepository) {

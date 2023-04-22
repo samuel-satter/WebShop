@@ -24,13 +24,11 @@ public class ProductController {
 
     private final ProductService productService;
 
-
     private final ProductRepository productRepository;
+
     private final OrderService orderService;
 
-
     private final Cart cart;
-
 
     @GetMapping("/add-products")
     public String addProductsPage(Model model) {
@@ -49,8 +47,7 @@ public class ProductController {
 
     @PostMapping("/add-product-to-cart")
     public String addProductToCart(@RequestParam("productId") Long productId,
-                            @RequestParam(value = "quantity", defaultValue = "1") Integer quantity,
-                            HttpSession session, Model model) {
+                            @RequestParam(value = "quantity", defaultValue = "1") Integer quantity, Model model) {
         Product product = productService.findById(productId);
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setProduct(product);
@@ -61,6 +58,7 @@ public class ProductController {
         model.addAttribute("selectedCategory", "All Categories");
         return "shop.html";
     }
+
     @GetMapping("/shop")
     public String productList(@RequestParam(name = "productName", required = false) String productName,
                               @RequestParam(name = "selectedCategory", required = false) String selectedCategory,

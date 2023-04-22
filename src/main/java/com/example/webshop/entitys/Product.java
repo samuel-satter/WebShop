@@ -15,7 +15,6 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-//    @NotNull(message = "Product has to have a name")
     @Basic(optional = false)
     @Column(name = "name")
     private String productName;
@@ -28,6 +27,7 @@ public class Product {
 
     @Column(name = "category")
     private String productCategory;
+
     public BigDecimal getPrice() {
         return productPrice;
     }

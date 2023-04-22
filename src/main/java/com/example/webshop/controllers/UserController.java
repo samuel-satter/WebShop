@@ -20,6 +20,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+
     User user;
 
     private final ProductService productService;
@@ -65,6 +66,4 @@ public class UserController {
             return "index.html";
         }
     }
-
-
 }

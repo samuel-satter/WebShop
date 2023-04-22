@@ -18,9 +18,6 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,33 +31,22 @@ public class Order {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "is_shipped")
     private boolean isShipped;
+
     @Column(name = "date_created")
     private LocalDate dateCreated;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
     @Valid
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-
-
-    public void updateTotalPrice() {
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        for (OrderProduct orderProduct : orderProducts) {
-            totalPrice = totalPrice.add(orderProduct.getTotalPrice());
-        }
-        this.price = totalPrice;
-    }
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
-    }
-    public OrderProduct getOrderProductByProductId(Long productId) {
-        for (OrderProduct orderProduct : orderProducts) {
-            if (orderProduct.getProduct().getId().equals(productId)) {
-                return orderProduct;
-            }
-        }
-        return null;
     }
 
 }

@@ -19,7 +19,5 @@ public class UserOrderService {
     public UserOrderService(UserOrderRepository userOrderRepository) {
         this.userOrderRepository = userOrderRepository;
     }
-    public List<UserOrder> getAllUserOrders() {
-        return userOrderRepository.findAll();
-    }
+
 }

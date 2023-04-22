@@ -1,23 +1,18 @@
 package com.example.webshop.services;
 
-import com.example.webshop.entitys.Product;
 import com.example.webshop.entitys.User;
 import com.example.webshop.repositorys.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.Optional;
-import java.util.Set;
-import java.util.TreeSet;
 
 @Service
 @SessionScope
 public class UserService {
-    private final UserRepository userRepository;
 
-    User user;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -42,7 +37,6 @@ public class UserService {
         }
         return null;
     }
-
 
     public boolean isUserAdmin(User user) {
         return user.isAdmin();
