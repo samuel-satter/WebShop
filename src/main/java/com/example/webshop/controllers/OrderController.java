@@ -3,10 +3,7 @@ package com.example.webshop.controllers;
 import com.example.webshop.entitys.Order;
 import com.example.webshop.entitys.User;
 import com.example.webshop.model.Cart;
-import com.example.webshop.services.OrderService;
-import com.example.webshop.services.ProductService;
-import com.example.webshop.services.UserOrderService;
-import com.example.webshop.services.UserService;
+import com.example.webshop.services.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -20,14 +17,18 @@ import java.util.List;
 @Data
 @Controller
 public class OrderController {
+
+    private final Cart cart;
+
     private final OrderService orderService;
+
     private final ProductService productService;
 
     private final UserService userService;
 
     private final UserOrderService userOrderService;
 
-    private final Cart cart;
+    private final EmailService emailService;
 
     Order order;
 
@@ -65,7 +66,7 @@ public class OrderController {
         String username = (String) session.getAttribute("username");
         User user = userService.findByUsername(username).orElseThrow();
         orderService.createOrder(user, cart);
-        orderService.addOrder(user);
+        orderService.addOrder(user, cart);
         model.addAttribute("cart", cart);
         return "confirmed-order.html";
     }
@@ -73,7 +74,6 @@ public class OrderController {
 
     @GetMapping("/confirmed-order")
     public String showConfirmedOrder(Model model, HttpSession session) {
-        model.addAttribute("cart", cart);
         String customerName = (String) session.getAttribute("username");
         model.addAttribute("customerName", customerName);
         return "confirmed-order.html";
@@ -82,7 +82,6 @@ public class OrderController {
     @GetMapping("/order-list")
     public String showListOfOrders(Model model) {
         List<Order> orders = orderService.getOrderRepository().findAll();
-        System.out.println(orders);
         model.addAttribute("orders", orders);
         return "order-list.html";
     }

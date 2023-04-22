@@ -1,6 +1,7 @@
 package com.example.webshop.entitys;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,6 +26,10 @@ public class User {
 
     @Column(name = "admin")
     private boolean admin;
+
+    @Email
+    @Column(name = "email")
+    private String email;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     List<UserOrder> userOrders;

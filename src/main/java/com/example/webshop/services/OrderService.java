@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @SessionScope
@@ -22,6 +21,8 @@ public class OrderService {
 
     private User user;
 
+    private Order order;
+
     private final UserRepository userRepository;
 
     private final UserOrderRepository userOrderRepository;
@@ -30,18 +31,23 @@ public class OrderService {
 
     private final ProductService productService;
 
+    private final EmailService emailService;
+
     @Autowired
-    public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, Cart cart, UserOrderRepository userOrderRepository) {
+    public OrderService(UserRepository userRepository, OrderRepository orderRepository, ProductService productService, Cart cart, UserOrderRepository userOrderRepository, EmailService emailService) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.productService = productService;
         this.cart = cart;
         this.userOrderRepository = userOrderRepository;
+        this.emailService = emailService;
     }
 
-    public void addOrder(User user) {
-        user.addOrder(new UserOrder(cart.getOrderProducts(), user));
+    public void addOrder(User user, Cart cart) {
+        user.addOrder(new UserOrder(this.cart.getOrderProducts(), user));
         user = userRepository.save(user);
+        emailService.sendEmail(user.getEmail(), "Order Confirmation", cart.getOrderProducts().toString());
+        cart.clearCart();
     }
 
     public void saveOrder(Order order) {

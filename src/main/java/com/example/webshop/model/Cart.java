@@ -56,4 +56,8 @@ public class Cart {
                 .map(OrderProduct :: getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    public void clearCart() {
+        orderProducts.clear();
+    }
 }
