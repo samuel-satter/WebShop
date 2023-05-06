@@ -39,7 +39,7 @@ public class ProductController {
 
     @PostMapping("/add-product")
     public String addProduct(@ModelAttribute("product") Product product, Model model) {
-        productRepository.save(product);
+        productService.addProduct(product);
         String feedback = String.format("Added %s", product);
         model.addAttribute("instruction", feedback);
         return "add-products.html";

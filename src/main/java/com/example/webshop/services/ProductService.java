@@ -34,6 +34,19 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid product"));
     }
 
+    public List<Product> findByName(String name) {
+        return productRepository.findByProductNameIgnoreCase(name);
+    }
+
+    public List<Product> findByCategory(String category) {
+        return productRepository.findByProductCategory(category);
+    }
+
+
+    public List<String> getAllProductCategories() {
+        return productRepository.findAllProductCategories();
+    }
+
     public List<Product> searchForProducts(String productName, String selectedCategory) {
         boolean categoryExists = selectedCategory != null && !selectedCategory.isEmpty();
         boolean productNameExists = productName != null && !productName.isEmpty();
@@ -47,8 +60,10 @@ public class ProductService {
             return productRepository.findByProductNameIgnoreCase(productName);
         }
     }
-    public List<String> getAllProductCategories() {
-        return productRepository.findAllProductCategories();
+
+    public void addProduct(Product product) {
+        productRepository.save(product);
     }
+
 
 }
