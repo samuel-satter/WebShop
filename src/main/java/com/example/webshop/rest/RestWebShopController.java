@@ -62,7 +62,8 @@ public class RestWebShopController {
         if (price.signum() < 0) {
             return ResponseEntity.badRequest().body("Price cannot be less than zero");
         } else {
-            productService.
+            productService.updateProductPrice(id, price);
+            return  ResponseEntity.accepted().build();
         }
     }
 
